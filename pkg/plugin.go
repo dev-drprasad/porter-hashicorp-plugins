@@ -41,20 +41,20 @@ func (p *PluginBox) Run(args []string) {
 		fmt.Fprint(p.Err, errors.Wrapf(err, "could not unmarshal config from input"))
 	}
 
-	key := args[0]
-	parts := strings.Split(key, ".")
-	// HANDLE index out of range
-	selectedInterface := parts[0]
 	var plugin plugin.Plugin
+	key := args[0]
 	switch key {
 	case VaultPluginInterface:
 		plugin = vault.NewPlugin(p.Config)
 	}
 
 	if plugin == nil {
-		fmt.Fprintf(p.Err, "invalid plugin key specified: %q", key)
+		fmt.Fprintf(p.Err, "invalid plugin interface specified: %q", key)
+		return
 	}
 
+	parts := strings.Split(key, ".")
+	selectedInterface := parts[0]
 	plugins.Serve(selectedInterface, plugin)
 
 }
