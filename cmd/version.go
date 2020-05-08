@@ -9,6 +9,7 @@ var versionFormat string
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the plugin version",
+	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		opts := version.Options{}
 		opts.RawFormat = versionFormat
