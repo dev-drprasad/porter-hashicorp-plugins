@@ -52,7 +52,7 @@ func (s *Store) Connect() error {
 
 func (s *Store) Resolve(keyName string, keyValue string) (string, error) {
 	if strings.ToLower(keyName) != SecretKeyName {
-		return "", errors.Errorf("cannot resolve unsupported keyName '%s'. Vault plugin only supports '%s' right now", keyName, SecretKeyName)
+		return "", errors.Errorf("could not resolve unsupported keyName '%s'. Vault plugin only supports '%s' right now", keyName, SecretKeyName)
 	}
 
 	vaultSecret, err := s.client.Logical().Read(s.config.PathPrefix + "/data/" + keyValue)
