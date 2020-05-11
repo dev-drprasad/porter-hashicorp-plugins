@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"errors"
 	"os"
 
 	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg"
@@ -13,18 +13,17 @@ var runCmd = &cobra.Command{
 	Short:     "Run the plugin and listen for client connections.",
 	Args:      cobra.ExactValidArgs(1),
 	ValidArgs: []string{pkg.VaultPluginInterface},
-	Run: func(cmd *cobra.Command, args []string) {
-		p.Run(args)
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return p.Run(args)
 	},
-	PreRun: func(cmd *cobra.Command, args []string) {
+	PreRunE: func(cmd *cobra.Command, args []string) error {
 		si, err := os.Stdin.Stat()
 		if err != nil {
-			fmt.Fprint(p.Err, "could not get stdin info")
-			os.Exit(1)
+			return errors.New("could not get stdin info")
 		}
 		if (si.Mode() & os.ModeCharDevice) == os.ModeCharDevice {
-			fmt.Fprintf(p.Err, "This binary is a Porter plugin. It is not meant to be executed directly.")
-			os.Exit(126)
+			return errors.New("this binary is a Porter plugin. It is not meant to be executed directly")
 		}
+		return nil
 	},
 }

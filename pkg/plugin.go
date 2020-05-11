@@ -36,9 +36,9 @@ func New() *PluginBox {
 	}
 }
 
-func (p *PluginBox) Run(args []string) {
+func (p *PluginBox) Run(args []string) error {
 	if err := json.NewDecoder(p.In).Decode(&p.Config); err != nil {
-		fmt.Fprint(p.Err, errors.Wrapf(err, "could not unmarshal config from input"))
+		return errors.Wrapf(err, "could not unmarshal config from input")
 	}
 
 	var plugin plugin.Plugin
@@ -49,23 +49,27 @@ func (p *PluginBox) Run(args []string) {
 	}
 
 	if plugin == nil {
-		fmt.Fprintf(p.Err, "invalid plugin interface specified: %q", key)
-		return
+		return errors.New(fmt.Sprintf("invalid plugin interface specified: %q", key))
 	}
 
 	parts := strings.Split(key, ".")
 	selectedInterface := parts[0]
 	plugins.Serve(selectedInterface, plugin)
-
+	return nil
 }
 
 func (p *PluginBox) PrintVersion(opts version.Options) error {
-	metadata := pkgmgmt.Metadata{
-		Name: "hashicorp",
-		VersionInfo: pkgmgmt.VersionInfo{
-			Version: Version,
-			Commit:  Commit,
-			Author:  "REDDY PRASAD (@dev-drprasad)",
+	metadata := plugins.Metadata{
+		Metadata: pkgmgmt.Metadata{
+			Name: "hashicorp",
+			VersionInfo: pkgmgmt.VersionInfo{
+				Version: Version,
+				Commit:  Commit,
+				Author:  "REDDY PRASAD (@dev-drprasad)",
+			},
+		},
+		Implementations: []plugins.Implementation{
+			{Type: "secrets", Name: "vault"},
 		},
 	}
 
