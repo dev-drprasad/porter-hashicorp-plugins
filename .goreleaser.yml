@@ -1,0 +1,32 @@
+env:
+  - GO111MODULE=on
+before:
+  hooks:
+    - go mod download
+builds:
+  - env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -w -X github.com/dev-drprasad/porter-hashicorp-plugins/pkg.Version=v{{.Version}} -X github.com/dev-drprasad/porter-hashicorp-plugins/pkg.Commit={{.ShortCommit}}
+    goos:
+      - darwin
+      # - windows
+      - linux
+    goarch:
+      - amd64
+    hooks:
+      post: "./build-posthook.sh {{.Env.PORTERPATH}} v{{.Version}}"
+
+archives:
+  - format: binary
+    name_template: "hashicorp-{{ .Os }}-{{ .Arch }}"
+
+release:
+  extra_files:
+    - glob: dist/atom.xml
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^[🔨⏪✅📝🔀].*"

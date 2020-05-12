@@ -45,7 +45,7 @@ func (s *Store) Connect() error {
 		return errors.Wrapf(err, "could not connect to vault server with address %s", s.config.VaultAddr)
 	}
 	s.client = client
-	s.client.SetToken("s.BRGSWg7rIGxfq4ZsBQiCZ8Ki")
+	s.client.SetToken(s.config.VaultToken)
 
 	return nil
 }

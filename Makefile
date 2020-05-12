@@ -10,7 +10,7 @@ VERSION ?= $(shell git describe --tags 2> /dev/null || echo v0)
 GO = GO111MODULE=on go
 LDFLAGS = -w -X $(WORKDIR)/pkg.Version=$(VERSION) -X $(WORKDIR)/pkg.Commit=$(COMMIT)
 XBUILD = CGO_ENABLED=0 $(GO) build -a -tags netgo -ldflags '$(LDFLAGS)'
-BINDIR = bin
+BINDIR = dist
 
 CLIENT_PLATFORM ?= $(shell go env GOOS)
 CLIENT_ARCH ?= $(shell go env GOARCH)
@@ -50,4 +50,4 @@ install:
 	install $(BINDIR)/$(PLUGIN)$(FILE_EXT) $(PORTER_HOME)/plugins/$(PLUGIN)$(FILE_EXT)
 
 clean:
-	-rm -fr bin/
+	-rm -fr $(BINDIR)

@@ -1,0 +1,25 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://github.com/dev-drprasad/porter-hashicorp-plugins</id>
+    <title>Porter's Hashicorp Plugins</title>
+    <updated>{{Updated}}</updated>
+    <link rel="self" href="https://github.com/dev-drprasad/porter-hashicorp-plugins/releases/download/latest/atom.xml"/>
+    <author>
+        <name>REDDY PRASAD (@dev-drprasad)</name>
+        <uri>https://github.com/dev-drprasad</uri>
+    </author>
+    {{#Mixins}}
+    <category term="{{.}}"/>
+    {{/Mixins}}
+    {{#Entries}}
+    <entry>
+        <id>porter-hashicorp-plugins ({{Version}})</id>
+        <title>{{Mixin}} @ {{Version}}</title>
+        <updated>{{Updated}}</updated>
+        <category term="{{Mixin}}"/>
+        <content>{{Version}}</content>
+        {{#Files}}
+        <link rel="download" href="https://github.com/dev-drprasad/porter-hashicorp-plugins/releases/download/{{Version}}/{{File}}" />
+        {{/Files}}
+    </entry>
+    {{/Entries}}
+</feed>
