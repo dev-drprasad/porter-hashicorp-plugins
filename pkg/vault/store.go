@@ -2,6 +2,7 @@ package vault
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"get.porter.sh/porter/pkg/secrets"
@@ -56,8 +57,11 @@ func (s *Store) Resolve(keyName string, keyValue string) (string, error) {
 	}
 
 	vaultSecret, err := s.client.Logical().Read(s.config.PathPrefix + "/data/" + keyValue)
-	if err != nil || vaultSecret == nil {
-		panic(err)
+	if err != nil {
+		return "", errors.Wrapf(err, "error while reading \"%s\" from vault", keyValue)
+	}
+	if vaultSecret == nil {
+		return "", errors.New(fmt.Sprintf("no secret value found at \"%s\"", keyValue))
 	}
 
 	data, ok := vaultSecret.Data["data"]
