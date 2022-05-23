@@ -14,7 +14,7 @@ var runCmd = &cobra.Command{
 	Args:      cobra.ExactValidArgs(1),
 	ValidArgs: []string{pkg.VaultPluginInterface},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return p.Run(args)
+		return p.Run(cmd.Context(), args)
 	},
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		si, err := os.Stdin.Stat()

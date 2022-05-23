@@ -1,20 +1,20 @@
 package pkg
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"strings"
 
-	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/config"
-	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/vault"
-	"github.com/pkg/errors"
-
-	"get.porter.sh/porter/pkg/context"
 	"get.porter.sh/porter/pkg/pkgmgmt"
 	"get.porter.sh/porter/pkg/plugins"
 	"get.porter.sh/porter/pkg/porter/version"
-	"get.porter.sh/porter/pkg/secrets"
-	plugin "github.com/hashicorp/go-plugin"
+	"get.porter.sh/porter/pkg/portercontext"
+	secretplugins "get.porter.sh/porter/pkg/secrets/plugins"
+	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/config"
+	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/vault"
+	"github.com/hashicorp/go-plugin"
+	"github.com/pkg/errors"
 )
 
 // These are build-time values, set during an official release
@@ -23,20 +23,20 @@ var (
 	Version string
 )
 
-const VaultPluginInterface = secrets.PluginInterface + ".hashicorp.vault"
+const VaultPluginInterface = secretplugins.PluginInterface + ".hashicorp.vault"
 
 type PluginBox struct {
-	*context.Context
+	*portercontext.Context
 	config.Config
 }
 
 func New() *PluginBox {
 	return &PluginBox{
-		Context: context.New(),
+		Context: portercontext.New(),
 	}
 }
 
-func (p *PluginBox) Run(args []string) error {
+func (p *PluginBox) Run(ctx context.Context, args []string) error {
 	if err := json.NewDecoder(p.In).Decode(&p.Config); err != nil {
 		return errors.Wrapf(err, "could not unmarshal config from input")
 	}
@@ -45,7 +45,7 @@ func (p *PluginBox) Run(args []string) error {
 	key := args[0]
 	switch key {
 	case VaultPluginInterface:
-		plugin = vault.NewPlugin(p.Config)
+		plugin = vault.NewPlugin(p.Context, p.Config)
 	}
 
 	if plugin == nil {
@@ -54,7 +54,7 @@ func (p *PluginBox) Run(args []string) error {
 
 	parts := strings.Split(key, ".")
 	selectedInterface := parts[0]
-	plugins.Serve(selectedInterface, plugin)
+	plugins.Serve(p.Context, selectedInterface, plugin, secretplugins.PluginProtocolVersion)
 	return nil
 }
 
