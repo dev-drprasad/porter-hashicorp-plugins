@@ -10,8 +10,8 @@ import (
 var p *pkg.PluginBox
 
 var rootCmd = &cobra.Command{
-	Use:   "hashicorp",
-	Short: "HashiCorp plugins for Porter",
+	Use:   "docker",
+	Short: "Advanced Build Configurations for Porter",
 
 	// Lets not send usage text and "Run ... for help" to caller when error happens
 	// https://github.com/spf13/cobra/issues/1111

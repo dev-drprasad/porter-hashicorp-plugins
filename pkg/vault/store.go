@@ -1,8 +1,8 @@
 package vault
 
 import (
-	"encoding/json"
-	"fmt"
+	// "encoding/json"
+	// "fmt"
 	"strings"
 
 	"get.porter.sh/porter/pkg/secrets"
@@ -39,14 +39,12 @@ func (s *Store) Connect() error {
 	}
 
 	config := &vaultapi.Config{
-		Address: s.config.VaultAddr,
 	}
 	client, err := api.NewClient(config)
 	if err != nil {
-		return errors.Wrapf(err, "could not connect to vault server with address %s", s.config.VaultAddr)
+		return errors.Wrapf(err, err.Error())
 	}
 	s.client = client
-	s.client.SetToken(s.config.VaultToken)
 
 	return nil
 }
@@ -56,23 +54,25 @@ func (s *Store) Resolve(keyName string, keyValue string) (string, error) {
 		return "", errors.Errorf("could not resolve unsupported keyName '%s'. Vault plugin only supports '%s' right now", keyName, SecretKeyName)
 	}
 
-	vaultSecret, err := s.client.Logical().Read(s.config.PathPrefix + "/data/" + keyValue)
-	if err != nil {
-		return "", errors.Wrapf(err, "error while reading \"%s\" from vault", keyValue)
-	}
-	if vaultSecret == nil {
-		return "", errors.New(fmt.Sprintf("no secret value found at \"%s\"", keyValue))
-	}
+	return "", nil
 
-	data, ok := vaultSecret.Data["data"]
-	if !ok {
-		return "", errors.New("property 'data' does not exist in secret")
-	}
+	// vaultSecret, err := s.client.Logical().Read(s.config.PathPrefix + "/data/" + keyValue)
+	// if err != nil {
+	// 	return "", errors.Wrapf(err, "error while reading \"%s\" from vault", keyValue)
+	// }
+	// if vaultSecret == nil {
+	// 	return "", errors.New(fmt.Sprintf("no secret value found at \"%s\"", keyValue))
+	// }
 
-	secretB, err := json.Marshal(data)
-	if err != nil {
-		return "", errors.Wrap(err, "could not marshal secret data")
-	}
+	// data, ok := vaultSecret.Data["data"]
+	// if !ok {
+	// 	return "", errors.New("property 'data' does not exist in secret")
+	// }
 
-	return string(secretB), nil
+	// secretB, err := json.Marshal(data)
+	// if err != nil {
+	// 	return "", errors.Wrap(err, "could not marshal secret data")
+	// }
+
+	// return string(secretB), nil
 }

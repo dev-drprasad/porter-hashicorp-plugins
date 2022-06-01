@@ -13,7 +13,6 @@ import (
 	"get.porter.sh/porter/pkg/pkgmgmt"
 	"get.porter.sh/porter/pkg/plugins"
 	"get.porter.sh/porter/pkg/porter/version"
-	"get.porter.sh/porter/pkg/secrets"
 	plugin "github.com/hashicorp/go-plugin"
 )
 
@@ -23,7 +22,7 @@ var (
 	Version string
 )
 
-const VaultPluginInterface = secrets.PluginInterface + ".hashicorp.vault"
+const BuildPluginInterface = "build" + ".advanced"
 
 type PluginBox struct {
 	*context.Context
@@ -44,7 +43,7 @@ func (p *PluginBox) Run(args []string) error {
 	var plugin plugin.Plugin
 	key := args[0]
 	switch key {
-	case VaultPluginInterface:
+	case BuildPluginInterface:
 		plugin = vault.NewPlugin(p.Config)
 	}
 
