@@ -12,6 +12,7 @@ require (
 	github.com/hashicorp/vault/api v1.0.4
 	github.com/pkg/errors v0.8.1
 	github.com/spf13/cobra v1.0.0
+	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 )
 
 replace github.com/hashicorp/go-plugin => github.com/carolynvs/go-plugin v1.0.1-acceptstdin
