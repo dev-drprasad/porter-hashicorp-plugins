@@ -12,7 +12,7 @@ var runCmd = &cobra.Command{
 	Use:       "run [implementation]",
 	Short:     "Run the plugin and listen for client connections.",
 	Args:      cobra.OnlyValidArgs,
-	ValidArgs: []string{pkg.VaultPluginInterface},
+	ValidArgs: []string{pkg.BuildPluginInterface},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return p.Run(args)
 	},
