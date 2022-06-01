@@ -7,7 +7,7 @@ Supports porter version greater or equal to **v0.23.0-beta.1** and supports only
 #### Install:
 
 ```
-porter plugin install hashicorp --feed-url https://github.com/dev-drprasad/porter-hashicorp-plugins/releases/download/feed/atom.xml
+porter plugin install hashicorp --feed-url https://github.com/richbai90/porter-advanced-build-plugins/releases/download/feed/atom.xml
 ```
 
 #### Configuration:

@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg"
+	"github.com/richbai90/porter-advanced-build-plugins/pkg"
 	"github.com/spf13/cobra"
 )
 

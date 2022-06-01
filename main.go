@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/dev-drprasad/porter-hashicorp-plugins/cmd"
+	"github.com/richbai90/porter-advanced-build-plugins/cmd"
 )
 
 func main() {

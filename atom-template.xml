@@ -1,8 +1,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://github.com/dev-drprasad/porter-hashicorp-plugins</id>
+    <id>https://github.com/richbai90/porter-advanced-build-plugins</id>
     <title>Porter's Hashicorp Plugins</title>
     <updated>{{Updated}}</updated>
-    <link rel="self" href="https://github.com/dev-drprasad/porter-hashicorp-plugins/releases/download/latest/atom.xml"/>
+    <link rel="self" href="https://github.com/richbai90/porter-advanced-build-plugins/releases/download/latest/atom.xml"/>
     <author>
         <name>REDDY PRASAD (@dev-drprasad)</name>
         <uri>https://github.com/dev-drprasad</uri>
@@ -18,7 +18,7 @@
         <category term="{{Mixin}}"/>
         <content>{{Version}}</content>
         {{#Files}}
-        <link rel="download" href="https://github.com/dev-drprasad/porter-hashicorp-plugins/releases/download/{{Version}}/{{File}}" />
+        <link rel="download" href="https://github.com/richbai90/porter-advanced-build-plugins/releases/download/{{Version}}/{{File}}" />
         {{/Files}}
     </entry>
     {{/Entries}}

@@ -1,5 +1,5 @@
 PLUGIN = hashicorp
-WORKDIR = github.com/dev-drprasad/porter-hashicorp-plugins
+WORKDIR = github.com/richbai90/porter-advanced-build-plugins
 SHELL = bash
 
 PORTER_HOME ?= $(HOME)/.porter

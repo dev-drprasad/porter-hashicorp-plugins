@@ -1,13 +1,13 @@
 package pkg
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 
-	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/config"
-	"github.com/dev-drprasad/porter-hashicorp-plugins/pkg/vault"
+	"github.com/pelletier/go-toml"
 	"github.com/pkg/errors"
+	"github.com/richbai90/porter-advanced-build-plugins/pkg/build"
+	"github.com/richbai90/porter-advanced-build-plugins/pkg/config"
 
 	"get.porter.sh/porter/pkg/context"
 	"get.porter.sh/porter/pkg/pkgmgmt"
@@ -36,7 +36,7 @@ func New() *PluginBox {
 }
 
 func (p *PluginBox) Run(args []string) error {
-	if err := json.NewDecoder(p.In).Decode(&p.Config); err != nil {
+	if err := toml.NewDecoder(p.In).Decode(&p.Config); err != nil {
 		return errors.Wrapf(err, "could not unmarshal config from input")
 	}
 
@@ -44,7 +44,7 @@ func (p *PluginBox) Run(args []string) error {
 	key := args[0]
 	switch key {
 	case BuildPluginInterface:
-		plugin = vault.NewPlugin(p.Config)
+		plugin = build.NewPlugin(p.Config)
 	}
 
 	if plugin == nil {
@@ -60,11 +60,11 @@ func (p *PluginBox) Run(args []string) error {
 func (p *PluginBox) PrintVersion(opts version.Options) error {
 	metadata := plugins.Metadata{
 		Metadata: pkgmgmt.Metadata{
-			Name: "hashicorp",
+			Name: "Advanced Build",
 			VersionInfo: pkgmgmt.VersionInfo{
 				Version: Version,
 				Commit:  Commit,
-				Author:  "REDDY PRASAD (@dev-drprasad)",
+				Author:  "Rich Baird (@drichbai90)",
 			},
 		},
 		Implementations: []plugins.Implementation{

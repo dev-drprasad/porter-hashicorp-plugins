@@ -7,7 +7,7 @@ builds:
   - env:
       - CGO_ENABLED=0
     ldflags:
-      - -w -X github.com/dev-drprasad/porter-hashicorp-plugins/pkg.Version=v{{.Version}} -X github.com/dev-drprasad/porter-hashicorp-plugins/pkg.Commit={{.ShortCommit}}
+      - -w -X github.com/richbai90/porter-advanced-build-plugins/pkg.Version=v{{.Version}} -X github.com/richbai90/porter-advanced-build-plugins/pkg.Commit={{.ShortCommit}}
     goos:
       - darwin
       # - windows
